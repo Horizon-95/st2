@@ -5,6 +5,12 @@ input:
   - count
   - sleep_delay
 
+vars:
+  - vartransfer: null
+
+output:
+  - vartransfer: <% ctx().vartransfer %>
+  
 tasks:
   task1:
     action: core.local
@@ -78,3 +84,10 @@ tasks:
     input:
       count: <% ctx(count) %>
       sleep_delay: <% ctx(sleep_delay) %>
+    next:
+      - when: <% succeeded() %>
+        publish: 
+          - vartransfer: <% ctx(count) %>, <% ctx(sleep_delay) %>
+
+
+
